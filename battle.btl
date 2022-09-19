@@ -1,0 +1,30 @@
+[WEAPONS]
+#WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], is_guided, ShotsPerTurn, TotalTurns, is_interceptable
+Mark67: [1d1|True; 1d5|x+10; 2d4|x+3], True, 200, 4, True
+RPT: [1d4|x+2; 1d4|x+2; 1d4|x+2], True, 20, 10, True
+Harpoon: [1d4|x+2; 1d4|x+2; 3d4|x+5], False, 50, 10, True
+
+[DEFENSES]
+#DefenseName:HitFunction, is_area_defense
+Mark1: 0.6*x, False
+Mark21: math.sqrt(x) - math.sqrt(100/(x+1)) + 10, False
+Mark92: (0.2*x) - math.sqrt(400/((0.5 *x) + 1)) + 20, True
+GenericCIWS: math.sqrt(x) - math.sqrt(100/(x+1)) + 10, False
+GenericSAM: (0.1*x) - math.sqrt(400/((0.5 *x) + 1)) + 20, True
+
+[SHIPS]
+#ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;]
+SunbeamFFG: [16; 2; 4], 90, [Mark67], [Mark92; Mark21]
+VigilantDDG: [16; 2; 6], 85, [Mark67], [Mark92; Mark21; Mark1]
+WellermanCG: [10; 15; 20], 25, [RPT; Harpoon], [GenericCIWS]
+
+[FLEETS]
+#FleetName: [ShipClass1|NumberOfClass1; ShipClassN|NumberOfClassN]
+MyFleet: [SunbeamFFG|1]
+YourFirstFleet: [WellermanCG|5]
+YourSecondFleet: [WellermanCG|8]
+
+[TEAMS]
+#TeamName: [Fleets;]
+MyTeam: [MyFleet]
+YourTeam: [YourFirstFleet; YourSecondFleet]
