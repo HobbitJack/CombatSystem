@@ -155,9 +155,12 @@ def text_parser(battle_file: str) -> Battle:
 battle = text_parser(f"{os.getcwd()}/battle.btl")
 
 turn_number = 1
-while all([len(battle.teams[key]) for key in battle.teams]):
+while (
+    len([len(battle.teams[key]) for key in battle.teams if len(battle.teams[key]) > 0])
+    >= 2
+):
     print(f"Turn {turn_number}:")
     battle.take_battle_turn()
     turn_number += 1
-print([len(battle.teams[key]) for key in battle.teams])
+print([key for key in battle.teams if len(battle.teams[key]) > 0][0], "is the winner.")
 input()
