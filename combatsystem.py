@@ -162,5 +162,10 @@ while (
     print(f"Turn {turn_number}:")
     battle.take_battle_turn()
     turn_number += 1
-print([key for key in battle.teams if len(battle.teams[key]) > 0][0], "is the winner.")
+if len([key for key in battle.teams if len(battle.teams[key]) > 0]) > 0:
+    print(
+        [key for key in battle.teams if len(battle.teams[key]) > 0][0], "is the winner."
+    )
+else:
+    print("The battle is a tie.")
 input()
