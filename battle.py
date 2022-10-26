@@ -1,30 +1,29 @@
 import random
 
 from fleet import Fleet
+from team import Team
 
 
 class Battle:
-    def __init__(self, teams: dict[str, list[Fleet]]) -> None:
+    def __init__(self, teams: list[Team]) -> None:
         self.teams = teams
 
     def __str__(self) -> str:
         return_string = ""
-        for team_name, team_fleets in self.teams.items():
-            return_string += f"{team_name}: {team_fleets}\n"
+        for team in self.teams:
+            return_string += f"{team.name}: {team.fleets}\n"
         return return_string
 
-    def fire_weapons(self, fleet: Fleet, fleet_team: str):
+    def fire_weapons(self, fleet: Fleet, team_number: int):
         for ship in fleet.ships:
             target_fleet = random.choice(
-                self.teams[
-                    random.choice(
-                        [
-                            team[0]
-                            for team in self.teams.items()
-                            if team[0] != fleet_team
-                        ]
-                    )
-                ]
+                random.choice(
+                    [
+                        team.fleets
+                        for team in self.teams
+                        if team.team_number != team_number and len(team.fleets) > 0
+                    ]
+                )
             )
             for weapon in ship.weapons:
                 if weapon.total_turns > 0:
@@ -38,32 +37,41 @@ class Battle:
         # Then, we calculate self defense on ships
         # Then, we calcluate damage on ships
         # Finally, we calculate the remaining ships.
-        for team in self.teams.items():
-            for fleet in team[1]:
-                self.fire_weapons(fleet, team[0])
+        for team in self.teams:
+            for fleet in team.fleets:
+                self.fire_weapons(fleet, team.team_number)
 
-        for team in self.teams.items():
-            for fleet in team[1]:
+        for team in self.teams:
+            for fleet in team.fleets:
                 fleet.calculate_area_defenses()
                 fleet.attack_vessels()
 
-        for team in self.teams.items():
-            for fleet in team[1]:
+        for team in self.teams:
+            for fleet in team.fleets:
                 for ship in fleet.ships:
                     ship.self_defense()
                     ship.will_be_hit_by_weapons()
 
-        for team in self.teams.items():
-            for fleet in team[1]:
+        teams_to_remove = []
+        for team_id, team in enumerate(self.teams):
+            for fleet in team.fleets:
                 ships_to_remove = []
                 for i, ship in enumerate(fleet.ships):
                     if ship.damage[2] <= 0:
                         print(f"{ship.name} killed!")
                         ships_to_remove.append(i)
                 ships_to_remove.sort(reverse=True)
-                for i in ships_to_remove:
-                    fleet.ships.pop(i)
+                for ship_id in ships_to_remove:
+                    fleet.ships.pop(ship_id)
 
                 if len(fleet.ships) == 0:
-                    team[1].remove(fleet)
-                fleet.redo_area_defenses()
+                    team.fleets.remove(fleet)
+
+                fleet.recalculate_area_defenses()
+
+            if len(team.fleets) == 0:
+                teams_to_remove.append(team_id)
+
+        teams_to_remove.sort(reverse=True)
+        for team_id in teams_to_remove:
+            self.teams.pop(team_id)
