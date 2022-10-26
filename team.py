@@ -4,6 +4,7 @@ from fleet import Fleet
 
 @dataclass
 class Team:
-    name: int
+    name: str
     fleets: list[Fleet]
     team_number: int
+    link_fleets: list[Fleet]

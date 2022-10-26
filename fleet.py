@@ -18,6 +18,13 @@ class Fleet:
         ]
         self.incoming_weapons: list[Weapon] = []
         self.all_incoming_weapons: list[Weapon] = []
+        self.is_stealth = True
+        for ship in ships:
+            if ship.stealth is False:
+                self.is_stealth = False
+
+        self.is_active: bool = not self.is_stealth
+        self.detected_fleets: list[Fleet] = []
 
     def calculate_area_defenses(self):
         self.all_incoming_weapons = self.incoming_weapons.copy()

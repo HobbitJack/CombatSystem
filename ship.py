@@ -3,6 +3,7 @@ import math
 
 from defense import Defense
 from weapon import Weapon
+from typing import Union
 
 
 class Ship:
@@ -13,6 +14,7 @@ class Ship:
         evasion: int,
         weapons: list[Weapon],
         defenses: list[Defense],
+        stealth: Union[bool, int],
     ) -> None:
         self.name = name
         self.damage = damage
@@ -21,6 +23,7 @@ class Ship:
         self.defenses = defenses
         self.all_incoming_weapons: list[Weapon] = []
         self.incoming_weapons: list[Weapon] = []
+        self.stealth = stealth
 
     def take_damage(self, damage: int, area: int) -> None:
         damage, self.damage[area] = (

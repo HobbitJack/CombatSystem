@@ -13,10 +13,10 @@ GenericCIWS: math.sqrt(x) - math.sqrt(100/(x+1)) + 10, False
 GenericSAM: (0.1*x) - math.sqrt(400/((0.5 *x) + 1)) + 20, True
 
 [SHIPS]
-#ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;]
-SunbeamFFG: [16; 2; 4], 90, [Mark67], [Mark92; Mark21]
-VigilantDDG: [16; 2; 6], 85, [Mark67], [Mark92; Mark21; Mark1]
-WellermanCG: [10; 15; 20], 25, [RPT; Harpoon], [GenericCIWS]
+#ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;], StealthFactor
+SunbeamFFG: [16; 2; 4], 90, [Mark67], [Mark92; Mark21], 6
+VigilantDDG: [16; 2; 6], 85, [Mark67], [Mark92; Mark21; Mark1], 5
+WellermanCG: [10; 15; 20], 25, [RPT; Harpoon], [GenericCIWS], False
 
 [FLEETS]
 #FleetName: [ShipClass1|NumberOfClass1; ShipClassN|NumberOfClassN]

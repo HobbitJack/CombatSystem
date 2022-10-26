@@ -14,24 +14,22 @@ class Battle:
             return_string += f"{team.name}: {team.fleets}\n"
         return return_string
 
-    def fire_weapons(self, fleet: Fleet, team_number: int):
+    def fire_weapons(self, fleet: Fleet):
         for ship in fleet.ships:
-            target_fleet = random.choice(
-                random.choice(
-                    [
-                        team.fleets
-                        for team in self.teams
-                        if team.team_number != team_number and len(team.fleets) > 0
-                    ]
-                )
+            target_fleet = (
+                random.choice(fleet.detected_fleets)
+                if len(fleet.detected_fleets) > 0
+                else False
             )
-            for weapon in ship.weapons:
-                if weapon.total_turns > 0:
-                    for _ in range(weapon.shots_per_turn):
-                        target_fleet.incoming_weapons.append(weapon)
-                    weapon.total_turns -= 1
+            if isinstance(target_fleet, Fleet):
+                for weapon in ship.weapons:
+                    if weapon.total_turns > 0:
+                        for _ in range(weapon.shots_per_turn):
+                            target_fleet.incoming_weapons.append(weapon)
+                        weapon.total_turns -= 1
 
     def take_battle_turn(self):
+        # Before we do anything else, we calculate sensors
         # First, we calculate weapons fire
         # Then, we calculate area defense on fleets and assign weapons to ships
         # Then, we calculate self defense on ships
@@ -39,7 +37,11 @@ class Battle:
         # Finally, we calculate the remaining ships.
         for team in self.teams:
             for fleet in team.fleets:
-                self.fire_weapons(fleet, team.team_number)
+                pass
+
+        for team in self.teams:
+            for fleet in team.fleets:
+                self.fire_weapons(fleet)
 
         for team in self.teams:
             for fleet in team.fleets:
