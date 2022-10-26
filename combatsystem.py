@@ -6,6 +6,7 @@ from defense import Defense
 from ship import Ship
 from fleet import Fleet
 from battle import Battle
+from team import Team
 
 
 def text_parser(battle_file: str) -> Battle:
@@ -15,7 +16,7 @@ def text_parser(battle_file: str) -> Battle:
         defenses: dict[str, Defense] = {}
         ships: dict[str, Ship] = {}
         fleets: dict[str, Fleet] = {}
-        teams: dict[str, list[Fleet]] = {}
+        teams: list[Team] = []
         for line in file.readlines():
             line = "".join(line.split())
             if line.startswith("#") or line == "":
@@ -145,27 +146,29 @@ def text_parser(battle_file: str) -> Battle:
                         ],
                     )
                 if reading == "Teams":
-                    teams[line.split(":")[0]] = [
-                        fleets[line.split(":")[1][1:-1].split(";")[i]]
-                        for i in range(len(line.split(":")[1][1:-1].split(";")))
-                    ]
+                    teams.append(
+                        Team(
+                            line.split(":")[0],
+                            [
+                                fleets[line.split(":")[1][1:-1].split(";")[i]]
+                                for i in range(len(line.split(":")[1][1:-1].split(";")))
+                            ],
+                            len(teams),
+                        )
+                    )
         return Battle(teams)
 
 
 battle = text_parser(f"{os.getcwd()}/battle.btl")
 
 turn_number = 1
-while (
-    len([len(battle.teams[key]) for key in battle.teams if len(battle.teams[key]) > 0])
-    >= 2
-):
+while len(battle.teams) >= 2:
     print(f"Turn {turn_number}:")
     battle.take_battle_turn()
     turn_number += 1
-if len([key for key in battle.teams if len(battle.teams[key]) > 0]) > 0:
-    print(
-        [key for key in battle.teams if len(battle.teams[key]) > 0][0], "is the winner."
-    )
+
+if len(battle.teams) == 1:
+    print(f"Team {battle.teams[0].name} is the winner.")
 else:
     print("The battle is a tie.")
 input()

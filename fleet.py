@@ -43,7 +43,7 @@ class Fleet:
                     interceptable_weapons.pop()
             self.incoming_weapons = interceptable_weapons + noninterceptable_weapons
 
-    def redo_area_defenses(self):
+    def recalculate_area_defenses(self):
         self.area_defenses = [
             ship.defenses[defense]
             for ship in self.ships
