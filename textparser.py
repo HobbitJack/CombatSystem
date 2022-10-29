@@ -58,6 +58,9 @@ class TextParser:
         Returns:
             Battle | A Battle made from the parsed data.
         """
+
+        reading = ""
+
         for line in self.imported_battle:
             # Remove extra whitespace
             line = "".join(line.split())

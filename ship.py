@@ -1,3 +1,19 @@
+"""
+This module contains the Ship class, the class responsible for the defense and damage of each
+individual ship simulated.
+
+Imports From:
+    math
+    random
+    typing
+
+    defense
+    weapon
+
+Classes:
+    Ship
+"""
+
 import math
 import random
 from typing import Union
@@ -7,6 +23,23 @@ from weapon import Weapon
 
 
 class Ship:
+    """This class stores all of the data for a ship and controls it being damaged and self-defense.
+
+    Attributes:
+        name: str | Human-readable name for this ship.
+        damage: list[int] | List of health remaining for each of the three damage types.
+        evasion: int | Evasion factor for this ship.
+        weapons: list[Weapon] | List of all weapons on this ship.
+        defenses: list[Defense] | List of all defenses on this ship.
+        stealth: Union[bool, int] | Stealth factor for this ship; False means not stealth.
+
+    Methods:
+        take_damage()
+        calculate_damage()
+        will_be_hit_by_weapons()
+        self_defense()
+    """
+
     def __init__(
         self,
         name: str,
@@ -26,15 +59,27 @@ class Ship:
         self.stealth = stealth
 
     def take_damage(self, damage: int, area: int) -> None:
+        """Distribute incoming damage upon the hit area, and calculate bleedthrough.
+
+        Paramters:
+            damage: int | Total points of damage to be delt, starting at the specified area.
+            area: int = {0, 2} | Area of the ship to be hit.
+
+        Returns:
+            None
+        """
+        # Set damage value either to bleedthrough or 0, and set HP value to remaining health or 0
         damage, self.damage[area] = (
             damage - self.damage[area] if damage > self.damage[area] else 0,
             self.damage[area] - damage if damage < self.damage[area] else 0,
         )
+        # Do bleedthrough for the next area
         if damage != 0 and area != 2:
             damage, self.damage[area + 1] = (
                 damage - self.damage[area + 1] if damage > self.damage[area + 1] else 0,
                 self.damage[area + 1] - damage if damage < self.damage[area + 1] else 0,
             )
+            # Bleedthrough for the last area
             if damage != 0 and area + 1 != 2:
                 self.damage[area + 2] = (
                     self.damage[area + 2] - damage
@@ -43,33 +88,68 @@ class Ship:
                 )
 
     def calculate_damage(self, damage_function: list[tuple[int, int, str]]) -> None:
+        """Determine which area on the ship needs to be hit and calcuate the damage to be applied.
+
+        Parameters:
+            damage_function: list[tuple[int, int, str]] | The dice and damage function to use.
+
+        Returns:
+            None
+        """
         for area in [0, 1, 2]:
+            # Check that the area isn't destroyed and that we don't bypass it
             if not (self.damage[area] <= 0 or damage_function[area][2] == "True"):
+                # Some weapons do no damage against certain areas and can't penetrate them
                 if damage_function[area][2] == "False":
                     return
+                # "x" is the variable used in the damage functions for the sum of the dice rolls
                 x = sum(
                     [
+                        # Max of dice
                         random.randint(1, damage_function[area][1])
+                        # Number of dice
                         for _ in range(damage_function[area][0])
                     ]
                 )
+                # Eval is required here. Not ideal.
                 damage: int = eval(damage_function[area][2])
                 self.take_damage(damage, area)
+                # Ensure we don't run the loop too many times
                 break
             else:
+                # Move onto the next area if the current one is destroyed
                 continue
 
-    def will_be_hit_by_weapons(self):
+    def will_be_hit_by_weapons(self) -> None:
+        """Calcuates evasion for each incoming weapon
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
+        # For every incoming weapon
         for weapon in self.incoming_weapons:
+            # Guided weapons always hit
             if weapon.is_guided:
                 self.calculate_damage(weapon.damage_functions)
             else:
+                # Unguided weapons have evasion rolls
                 if random.randint(1, 100) > random.randint(1, 100) + self.evasion:
                     self.calculate_damage(weapon.damage_functions)
 
     def self_defense(self):
-        self.all_incoming_weapons = self.incoming_weapons.copy()
+        """Calculate point defense for this ship
+
+        Parameters:
+            None
+
+        Returns:
+            None
+        """
         for defense in self.defenses:
+            # Area defenses were already calcuated for the entire fleet
             if not defense.is_area_defense:
                 interceptable_weapons = [
                     weapon
@@ -81,17 +161,23 @@ class Ship:
                     for weapon in self.incoming_weapons
                     if not weapon.is_interceptable
                 ]
+                # "x" is the sum of dice rolls, and is used in the eval for the damage function
                 x = len(interceptable_weapons)
                 weapons_killed = math.floor(
-                    eval(defense.hit_function) * (random.randint(25, 175) / 100)
+                    # Using eval is the only option
+                    eval(defense.hit_function)
+                    * (random.randint(10, 100) / 100)
                 )
+                # If we've killed everything, clear incoming
                 x = x - weapons_killed if x > weapons_killed else 0
                 if x == 0:
                     interceptable_weapons = []
                 else:
+                    # Randomly destroy incoming weapons
                     random.shuffle(interceptable_weapons)
                     for _ in range(len(interceptable_weapons) - x):
                         interceptable_weapons.pop()
+                # Reconstruct incoming weapons with the ones we can't stop and the ones we missed
                 self.incoming_weapons = interceptable_weapons + noninterceptable_weapons
             else:
                 continue
