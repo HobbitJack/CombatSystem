@@ -1,4 +1,4 @@
-"""Contains the class used to store weapons.
+"""This module contains the class used to store weapons.
 
 Imports From:
     dataclasses
