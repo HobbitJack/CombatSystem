@@ -26,9 +26,10 @@ def main() -> None:
 
     turn_number = 1
     while len(battle.teams) >= 2:
-        print(f"Turn {turn_number}:")
         battle.take_battle_turn()
         turn_number += 1
+
+    print(f"Battle took {turn_number} turns.")
 
     if len(battle.teams) == 1:
         print(f"Team {battle.teams[0].name} is the winner.")

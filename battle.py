@@ -173,6 +173,8 @@ class Battle:
             if len(team.fleets) == 0:
                 teams_to_remove.append(team.team_number)
 
+        # Sort in reverse to ensure we don't change the order as we remove
+        teams_to_remove.sort(reverse=True)
         for team_number in teams_to_remove:
             self.teams.pop(team_number)
 

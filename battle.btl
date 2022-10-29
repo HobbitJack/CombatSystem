@@ -20,17 +20,16 @@ ATypeSAM: (0.2*x) - math.sqrt(324/((0.5 *x) + 1)) + 18, True
 #ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;], StealthFactor
 SunbeamFFG: [16; 2; 4], 90, [Mark67], [Mark92; Mark21], 6
 ATypeFFG: [10; 4; 4], 90, [ATypeRailgun; ATypeLaser], [ATypeCIWS], False
-BTypeDDG: [12; 8; 8], 60, [BTypeRailgun; BTypeLaser], [ATypeCIWS], False
+BTypeDDG: [12; 8; 8], 60, [BTypeRailgun; BTypeLaser], [ATypeCIWS; ATypeSAM], False
 CTypeCG: [14; 12; 12], 50, [CTypeRailgun; CTypeLaser], [BTypeCIWS; ATypeSAM], False
 
 [FLEETS]
 #FleetName: [ShipClass1|NumberOfClass1; ShipClassN|NumberOfClassN]
 TokanAmbushFleet1: [SunbeamFFG|1]
 TokanAmbushFleet2: [SunbeamFFG|1]
-HiluiyaMainFleet: [ATypeFFG|50; BTypeDDG|20; CTypeCG|5]
-HiluiyaMainFleet2: [ATypeFFG|50; BTypeDDG|20; CTypeCG|5]
+HiluiyaMainFleet: [ATypeFFG|20; BTypeDDG|5; CTypeCG|1]
 
 [TEAMS]
 #TeamName: [Fleets;]
-HiluiyaFleetOne: [HiluiyaMainFleet]
-HiluiyaFleetTwo: [HiluiyaMainFleet2]
+TokanNavy: [TokanAmbushFleet1; TokanAmbushFleet2]
+HiluiyaNavy: [HiluiyaMainFleet]
