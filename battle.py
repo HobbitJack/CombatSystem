@@ -22,6 +22,7 @@ class Battle:
 
     Attributes:
         teams: list[Team] | List of all teams in this battle.
+        granular_display: bool | Determine if killed ships will be displayed.
 
     Methods:
         calculate_sensors()
@@ -29,8 +30,9 @@ class Battle:
         take_battle_turn()
     """
 
-    def __init__(self, teams: list[Team]) -> None:
+    def __init__(self, teams: list[Team], granular_display: bool = False) -> None:
         self.teams = teams
+        self.granular_display = granular_display
 
     def __str__(self) -> str:
         return_string = ""
@@ -160,7 +162,9 @@ class Battle:
                 # Sort it so that we remove the correct ship
                 ships_to_remove.sort(reverse=True)
                 for ship_id in ships_to_remove:
-                    fleet.ships.pop(ship_id)
+                    killed_ship = fleet.ships.pop(ship_id).name
+                    if self.granular_display:
+                        print(f"{killed_ship} killed!")
 
                 # If the fleet is killed, remove it
                 if len(fleet.ships) == 0:
