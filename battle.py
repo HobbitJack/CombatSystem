@@ -14,6 +14,62 @@ class Battle:
             return_string += f"{team.name}: {team.fleets}\n"
         return return_string
 
+    def calculate_sensors(self, sensor_fleet: Fleet, sensor_team: Team):
+        all_fleets_from_other_teams: list[Fleet] = [
+            fleet
+            for team in self.teams
+            for fleet in team.fleets
+            if team.team_number != sensor_team.team_number
+        ]
+
+        # No activity counter
+        if len(sensor_fleet.detected_fleets) == 0 and len(sensor_fleet.tma_fleets) == 0:
+            sensor_fleet.no_activity_counter += 1
+        else:
+            sensor_fleet.no_activity_counter = 0
+
+        if sensor_fleet.no_activity_counter == 3:
+            sensor_fleet.is_active = True
+
+        # Calculate TMA
+        for fleet in sensor_fleet.tma_fleets:
+            sensor_fleet.tma_fleets[fleet] += 1
+            if (
+                sensor_fleet.tma_fleets[fleet] == 3
+                and fleet not in sensor_fleet.detected_fleets
+            ):
+                sensor_fleet.detected_fleets.append(fleet)
+
+        # Caculate sensor detection
+        if sensor_fleet.is_active:
+            for fleet in all_fleets_from_other_teams:
+                if fleet.is_stealth:
+                    for ship in fleet.ships:
+                        if random.randint(1, 20) > random.randint(1, 20) + ship.stealth:
+                            if fleet not in sensor_fleet.detected_fleets:
+                                sensor_fleet.detected_fleets.append(fleet)
+                else:
+                    if fleet not in sensor_fleet.detected_fleets:
+                        fleet.detected_fleets.append(fleet)
+
+        # Calculate ESM
+        for fleet in all_fleets_from_other_teams:
+            if (
+                fleet.is_active
+                and fleet not in sensor_fleet.detected_fleets
+                and fleet not in sensor_fleet.tma_fleets.keys()
+            ):
+                sensor_fleet.tma_fleets[fleet] = 1
+
+        # Calculate LINK
+        if sensor_fleet.is_active:
+            for fleet in sensor_team.link_fleets:
+                if fleet not in sensor_fleet.detected_fleets:
+                    sensor_fleet.detected_fleets.append(fleet)
+        for fleet in sensor_fleet.detected_fleets:
+            if fleet not in sensor_team.link_fleets:
+                sensor_team.link_fleets.append(fleet)
+
     def fire_weapons(self, fleet: Fleet):
         for ship in fleet.ships:
             target_fleet = (
@@ -23,10 +79,11 @@ class Battle:
             )
             if isinstance(target_fleet, Fleet):
                 for weapon in ship.weapons:
-                    if weapon.total_turns > 0:
+                    if weapon.total_turns > 0 or weapon.total_turns == -1:
                         for _ in range(weapon.shots_per_turn):
                             target_fleet.incoming_weapons.append(weapon)
-                        weapon.total_turns -= 1
+                        if weapon.total_turns > 0:
+                            weapon.total_turns -= 1
 
     def take_battle_turn(self):
         # Before we do anything else, we calculate sensors
@@ -37,7 +94,7 @@ class Battle:
         # Finally, we calculate the remaining ships.
         for team in self.teams:
             for fleet in team.fleets:
-                pass
+                self.calculate_sensors(fleet, team)
 
         for team in self.teams:
             for fleet in team.fleets:

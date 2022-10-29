@@ -1,9 +1,9 @@
-import random
 import math
+import random
+from typing import Union
 
 from defense import Defense
 from weapon import Weapon
-from typing import Union
 
 
 class Ship:

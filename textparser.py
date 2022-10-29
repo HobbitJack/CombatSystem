@@ -1,3 +1,18 @@
+"""This module contains the text parser for battle files.
+
+Imports From:
+    copy
+
+    weapon
+    defense
+    ship
+    fleet
+    battle
+    team
+
+Classes:
+    TextParser
+"""
 import copy
 
 from weapon import Weapon
@@ -9,6 +24,25 @@ from team import Team
 
 
 class TextParser:
+    """Class which exists to parse text
+
+    Attributes:
+        reading: str = "None" | Stores which type of data is being read.
+        weapons: dict[str, Weapon] = {} | Stores all read weapons.
+        defenses: dict[str, Defense] = {} | Stores all read defenses.
+        ships: dict[str, Ship] = {} | Stores all read ships.
+        fleets: dict[str, Fleet] = {} | Stores all read fleets.
+        teams: list[Team] = [] | Stores all read teams.
+
+    Methods:
+        parse()
+        weapon_parser()
+        defense_parser()
+        ship_parser()
+        fleet_parser()
+        team_parser()
+    """
+
     def __init__(self, file_directory: str) -> None:
         with open(file_directory, mode="r", encoding="utf8") as file:
             self.imported_battle = file.readlines()
@@ -146,4 +180,5 @@ class TextParser:
                 for i in range(len(line.split(":")[1][1:-1].split(";")))
             ],
             len(self.teams),
+            [],
         )
