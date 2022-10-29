@@ -24,7 +24,7 @@ BTypeDDG: [12; 8; 8], 60, [BTypeRailgun; BTypeLaser], [ATypeCIWS; ATypeSAM], Fal
 CTypeCG: [14; 12; 12], 50, [CTypeRailgun; CTypeLaser], [BTypeCIWS; ATypeSAM], False
 
 [FLEETS]
-#FleetName: [ShipClass1|NumberOfClass1; ShipClassN|NumberOfClassN]
+#FleetName: [ShipClass|NumberOfClass;]
 TokanAmbushFleet1: [SunbeamFFG|1]
 TokanAmbushFleet2: [SunbeamFFG|1]
 HiluiyaMainFleet: [ATypeFFG|20; BTypeDDG|5; CTypeCG|1]
