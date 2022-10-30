@@ -1,11 +1,11 @@
 [WEAPONS]
 #WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], is_guided, ShotsPerTurn, TotalTurns, is_interceptable
 Mark67: [1d1|True; 1d5|x+10; 2d4|x+3], True, 200, 4, True
-ATypeRailgun: [2d2|x+2; 1d2|x; 2d2|x], False, 50, 50, False
+ATypeRailgun: [2d2|x+2; 1d2|x; 2d2|x], False, 50, 50, True
 ATypeLaser: [1d2|x; 2d2|x+2; 2d2|x], False, 50, -1, False
-BTypeRailgun: [3d2|x+2; 2d2|x; 3d2|x], False, 50, 50, False
+BTypeRailgun: [3d2|x+2; 2d2|x; 3d2|x], False, 50, 50, True
 BTypeLaser: [2d2|x; 3d2|x+2; 3d2|x], False, 50, -1, False
-CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, False
+CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, True
 CTypeLaser: [3d2|x; 4d2|x+2; 4d2|x], False, 50, -1, False
 
 [DEFENSES]

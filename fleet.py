@@ -138,17 +138,10 @@ class Fleet:
         random.shuffle(self.incoming_weapons)
         # Determine the number of weapons given to each ship
         # Considering randomly distributing them?
-        weapons_per_ship: int = len(self.incoming_weapons) // len(self.ships)
-        for ship in self.ships:
-            for _ in range(weapons_per_ship):
-                ship.incoming_weapons.append(self.incoming_weapons.pop())
-        # If there is a remainder, randomly assign the remainder
-        if len(self.incoming_weapons) > 0:
-            for i in [
-                random.randint(0, len(self.ships) - 1)
-                for _ in range(len(self.incoming_weapons))
-            ]:
-                self.ships[i].incoming_weapons.append(self.incoming_weapons.pop())
+        while len(self.incoming_weapons) > 0:
+            random.choice(self.ships).incoming_weapons.append(
+                self.incoming_weapons.pop()
+            )
 
     def __str__(self) -> str:
         return_string = self.name.upper()
