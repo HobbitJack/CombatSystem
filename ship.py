@@ -161,21 +161,27 @@ class Ship:
                     for weapon in self.incoming_weapons
                     if not weapon.is_interceptable
                 ]
-                # "x" is the sum of dice rolls, and is used in the eval for the damage function
-                x = len(interceptable_weapons)
+                # Calculate weapons killed
+                num_weapons = len(interceptable_weapons)
+                weapons_killed = defense.min_kill
+                for _ in range(num_weapons):
+                    if random.randint(0, 100) < defense.probability_kill:
+                        weapons_killed += 1
+                    else:
+                        break
                 weapons_killed = math.floor(
-                    # Using eval is the only option
-                    eval(defense.hit_function)
-                    * (random.randint(10, 100) / 100)
+                    weapons_killed * (random.randint(25, 175) / 100)
                 )
                 # If we've killed everything, clear incoming
-                x = x - weapons_killed if x > weapons_killed else 0
-                if x == 0:
+                num_weapons = (
+                    num_weapons - weapons_killed if num_weapons > weapons_killed else 0
+                )
+                if num_weapons == 0:
                     interceptable_weapons = []
                 else:
                     # Randomly destroy incoming weapons
                     random.shuffle(interceptable_weapons)
-                    for _ in range(len(interceptable_weapons) - x):
+                    for _ in range(len(interceptable_weapons) - num_weapons):
                         interceptable_weapons.pop()
                 # Reconstruct incoming weapons with the ones we can't stop and the ones we missed
                 self.incoming_weapons = interceptable_weapons + noninterceptable_weapons

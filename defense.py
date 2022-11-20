@@ -15,7 +15,8 @@ class Defense:
 
     Attributes:
         name: str | Human-readable name for this weapon.
-        hit_function: str | Hit function determining how many weapons this defense will stop
+        probability_kill: int = {0, 100} | The probability that this defense kills the next weapon.
+        min_kill: int | The minimum number of incoming weapons this defense will always kill.
         is_area_defense: bool | Determines if this defense is an area defense or not.
 
     Methods:
@@ -23,5 +24,6 @@ class Defense:
     """
 
     name: str
-    hit_function: str
+    probability_kill: int
+    min_kill: int
     is_area_defense: bool

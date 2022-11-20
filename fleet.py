@@ -78,16 +78,22 @@ class Fleet:
         for defense in self.area_defenses:
             # Each defense gets its own kill list
             defense_kill_list = []
-            # x is the input to the damage function
-            x = len(interceptable_weapons)
+            # Pk model is a set of random rolls
+            num_weapons = len(interceptable_weapons)
+            # Always kill at least min_kill weapons
+            weapons_killed = defense.min_kill
+            for _ in range(num_weapons):
+                if random.randint(0, 100) < defense.probability_kill:
+                    weapons_killed += 1
+                else:
+                    # We've hit our max
+                    break
             weapons_killed = math.floor(
-                # Eval is a necessary evil.
-                eval(defense.hit_function)
-                * (random.randint(10, 100) / 100)
+                weapons_killed * (random.randint(25, 175) / 100)
             )
             # Each individual defense won't overlap with itself
             for _ in range(weapons_killed):
-                if (target := random.randint(0, x - 1)) not in defense_kill_list:
+                if (target := random.randint(0, num_weapons)) not in defense_kill_list:
                     defense_kill_list.append(target)
 
             # Defenses can overlap, though.

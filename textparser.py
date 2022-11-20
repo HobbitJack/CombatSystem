@@ -159,13 +159,15 @@ class TextParser:
         return Defense(
             # Name
             line.split(":")[0],
-            # Hit Function
-            line.split(":")[1].split(",")[0],
+            # Probability of Kill
+            int(line.split(":")[1].split(",")[0]),
+            # Min Kill
+            int(line.split(":")[1].split(",")[1]),
             # Determines if the defense is an area defense
-            True if line.split(":")[1].split(",")[1] == "True" else False,
+            True if line.split(":")[1].split(",")[2] == "True" else False,
         )
 
-    def ship_parser(self, line) -> Ship:
+    def ship_parser(self, line: str) -> Ship:
         """Parse the passed-in line as a ship. I'm really sorry about this one.
 
         Parameters:

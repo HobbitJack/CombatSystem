@@ -1,5 +1,5 @@
 [WEAPONS]
-#WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], is_guided, ShotsPerTurn, TotalTurns, is_interceptable
+#WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], IsGuided, ShotsPerTurn, TotalTurns, IsInterceptable
 Mark67: [1d1|True; 1d5|x+10; 2d4|x+3], True, 200, 4, True
 ATypeRailgun: [2d2|x+2; 1d2|x; 2d2|x], False, 50, 50, True
 ATypeLaser: [1d2|x; 2d2|x+2; 2d2|x], False, 50, -1, False
@@ -9,12 +9,12 @@ CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, True
 CTypeLaser: [3d2|x; 4d2|x+2; 4d2|x], False, 50, -1, False
 
 [DEFENSES]
-#DefenseName:HitFunction, is_area_defense
-Mark21: math.sqrt(x) - math.sqrt(100/(x+1)) + 10, False
-Mark92: (0.2*x) - math.sqrt(400/((0.5 *x) + 1)) + 20, True
-ATypeCIWS: math.sqrt(x) - math.sqrt(81/(x+1)) + 9, False
-BTypeCIWS: math.sqrt(x) - math.sqrt(100/(x+1)) + 10, False
-ATypeSAM: (0.2*x) - math.sqrt(324/((0.5 *x) + 1)) + 18, True
+#DefenseName:Pk, MinKill, IsAreaDefense
+Mark21: 75, 2, False
+Mark92: 85, 5, True
+ATypeCIWS: 70, 1, False
+BTypeCIWS: 80, 1, False
+ATypeSAM: 80, 5, True
 
 [SHIPS]
 #ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;], StealthFactor
@@ -27,7 +27,7 @@ CTypeCG: [14; 12; 12], 50, [CTypeRailgun; CTypeLaser], [BTypeCIWS; ATypeSAM], Fa
 #FleetName: [ShipClass|NumberOfClass;]
 TokanAmbushFleet1: [SunbeamFFG|1]
 TokanAmbushFleet2: [SunbeamFFG|1]
-HiluiyaMainFleet: [ATypeFFG|20; BTypeDDG|5; CTypeCG|1]
+HiluiyaMainFleet: [ATypeFFG|50; BTypeDDG|20; CTypeCG|5]
 
 [TEAMS]
 #TeamName: [Fleets;]
