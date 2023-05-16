@@ -145,6 +145,8 @@ class TextParser:
             int(line.split(":")[1].split(",")[3]),
             # Determine if the weapon is interceptable
             True if (line.split(":")[1].split(",")[4]) == "True" else False,
+            # Determine if the weapon is a fighter
+            True if (line.split(":")[1].split(",")[5]) == "True" else False,
         )
 
     def defense_parser(self, line: str) -> Defense:
