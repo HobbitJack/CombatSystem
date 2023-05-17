@@ -1,13 +1,13 @@
 [WEAPONS]
-#WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], IsGuided, ShotsPerTurn, TotalTurns, IsInterceptable, IsFighter
-Mark67: [1d1|True; 1d5|x+10; 2d4|x+3], True, 200, 4, True, False
-ATypeRailgun: [2d2|x+2; 1d2|x; 2d2|x], False, 50, 50, True, False
-ATypeLaser: [1d2|x; 2d2|x+2; 2d2|x], False, 50, -1, False, False
-BTypeRailgun: [3d2|x+2; 2d2|x; 3d2|x], False, 50, 50, True, False
-BTypeLaser: [2d2|x; 3d2|x+2; 3d2|x], False, 50, -1, False, False
-CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, True, False
-CTypeLaser: [3d2|x; 4d2|x+2; 4d2|x], False, 50, -1, False, False
-ATypeFighter: [2d2|x+2; 1d2|x; 2d2|x], True, 2, 50, True, True
+#WeaponName: [ShieldDice|ShieldFunction; ArmorDice|ArmorFunction; HullDice|HullFunction], IsGuided, ShotsPerTurn, TotalTurns, IsInterceptable
+Mark67: [1d1|True; 1d5|x+10; 2d4|x+3], True, 200, 4, True
+ATypeRailgun: [2d2|x+2; 1d2|x; 2d2|x], False, 50, 50, True
+ATypeLaser: [1d2|x; 2d2|x+2; 2d2|x], False, 50, -1, False
+BTypeRailgun: [3d2|x+2; 2d2|x; 3d2|x], False, 50, 50, True
+BTypeLaser: [2d2|x; 3d2|x+2; 3d2|x], False, 50, -1, False
+CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, True
+CTypeLaser: [3d2|x; 4d2|x+2; 4d2|x], False, 50, -1, False
+ATypeFighter: [2d2|x+2; 1d2|x; 2d2|x], True, 2, 50, True
 
 [DEFENSES]
 #DefenseName:Pk, MinKill, IsAreaDefense
