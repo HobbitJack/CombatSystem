@@ -20,7 +20,6 @@ class Weapon:
         shots_per_turn: int | The number of weapons fired by this weapon per turn.
         total_turns: int | The total number of turns this weapon can fire for.
         is_interceptable: bool | Determines if this weapon can be intercepted by defenses.
-        is_fighter: bool | Determines if this weapon will behave as a fighter
         
     Methods:
         None
@@ -32,4 +31,3 @@ class Weapon:
     shots_per_turn: int
     total_turns: int
     is_interceptable: bool
-    is_fighter: bool

@@ -7,7 +7,6 @@ BTypeRailgun: [3d2|x+2; 2d2|x; 3d2|x], False, 50, 50, True
 BTypeLaser: [2d2|x; 3d2|x+2; 3d2|x], False, 50, -1, False
 CTypeRailgun: [4d2|x+2; 3d2|x; 4d2|x], False, 50, 50, True
 CTypeLaser: [3d2|x; 4d2|x+2; 4d2|x], False, 50, -1, False
-ATypeFighter: [2d2|x+2; 1d2|x; 2d2|x], True, 2, 50, True
 
 [DEFENSES]
 #DefenseName:Pk, MinKill, IsAreaDefense
@@ -19,7 +18,7 @@ ATypeSAM: 80, 5, True
 
 [SHIPS]
 #ShipClasssName: [ShieldHP; ArmorHP; HullHP], Evasion, [Weapons;], [Defenses;], StealthFactor
-SunbeamFFG: [16; 2; 4], 90, [Mark67], [Mark92; Mark21], 6
+SunbeamFFG: [16; 2; 4], 95, [Mark67], [Mark92; Mark21], 6
 ATypeFFG: [10; 4; 4], 90, [ATypeRailgun; ATypeLaser], [ATypeCIWS], False
 BTypeDDG: [12; 8; 8], 60, [BTypeRailgun; BTypeLaser], [ATypeCIWS; ATypeSAM], False
 CTypeCG: [14; 12; 12], 50, [CTypeRailgun; CTypeLaser], [BTypeCIWS; ATypeSAM], False
